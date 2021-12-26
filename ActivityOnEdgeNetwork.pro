@@ -25,10 +25,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        widget.cpp
+        widget.cpp \
+    vertex.cpp \
+    edge.cpp \
+    carvas.cpp
 
 HEADERS += \
-        widget.h
+        widget.h \
+    vertex.h \
+    edge.h \
+    carvas.h
 
 INCLUDEPATH += \
         LinkedList.hpp \
