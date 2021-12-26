@@ -229,10 +229,9 @@ void Carvas::generateCriticalEdge()
     {
         //生成关键路径
         CriticalPath(graph);
-        LinkedList<int> sNodes = graph->startNode,
-                eNodes = graph->endNode;
-        LinkNode<int>* siter = sNodes.getHead(),
-                * eiter = eNodes.getHead();
+        LinkedList<int>& sNodes = graph->startNode;
+        LinkedList<int>& eNodes = graph->endNode;
+        LinkNode<int> *siter = sNodes.getHead(), *eiter = eNodes.getHead();
         for(int iter = 0; iter < vecEdge.size(); iter++)
         {
             siter = sNodes.getHead()->_next;

@@ -28,7 +28,7 @@ public:
 	//清空链表，依次删除
 	void Erase() {
 		LinkNode<T>* cur;
-		while (_first->_next) {
+                while (_first->_next != NULL) {
 			cur = _first->_next;
 			_first->_next = cur->_next;
 			delete cur;

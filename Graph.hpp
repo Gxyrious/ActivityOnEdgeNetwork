@@ -231,7 +231,11 @@ public:
 		}
 		for (int i = 0; i < n; i++) {
 			//如果存在一个没被连接上，则返回false
-			if (!ifConnected[i]) { return false; }
+			if (!ifConnected[i]) { 
+				delete[] count;
+				delete[] ifConnected;
+				return false;
+			}
 		}
 
 		for (i = 0; i < n; i++) {
@@ -244,6 +248,8 @@ public:
 		for (int i = 0; i < n; i++) {
 			if (top == -1) {
 				//存在回路
+				delete[] count;
+				delete[] ifConnected;
 				return false;
 			}
 			else {
