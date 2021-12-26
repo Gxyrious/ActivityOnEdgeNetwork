@@ -3,13 +3,13 @@
 
 #include <QLine>
 
-class Edge : public QLine
+class Edge : public QLineF
 {
 public:
     bool tag;
     Edge();
-    Edge(QLine line);
-    Edge(int x1, int y1, int x2, int y2);
+    Edge(QPointF p1,QPointF p2);
+    Edge(qreal x1, qreal y1, qreal x2, qreal y2);
     int getNum()const;
     void setNum(int num);
     void setNode(int sNode, int eNode);

@@ -32,14 +32,9 @@ public slots:
     void submitEdge();
     void removeEdge();
 
-protected:
-
-
 private:
-    Ui::Widget *ui;
     QLineEdit *sNodeLE, *eNodeLE, *weightLE;//添加边的起点终点和权值输入
     QLineEdit *rEdgeNode1LE, *rEdgeNode2LE;//删除边的起点和终点输入
-    QLineEdit *rNodeLE;//删除的结点输入
     QPushButton *edgeSubmitButton, *edgeRemoveButton;
     QPushButton *aoeGenerateButton, *clearGraphButton;//生成AOE网络
 };

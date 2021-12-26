@@ -7,16 +7,16 @@ Edge::Edge()
     _num = 0;
 }
 
-Edge::Edge(QLine line)
+Edge::Edge(QPointF p1, QPointF p2)
 {
     tag = false;
-    setLine(line.x1(),line.y1(),line.x2(),line.y2());
+    setLine(p1.x(), p1.y(), p2.x(), p2.y());
 }
 
-Edge::Edge(int x1, int y1, int x2, int y2)
+Edge::Edge(qreal x1, qreal y1, qreal x2, qreal y2)
 {
     tag = false;
-    setLine(x1,y1,x2,y2);
+    setLine(x1, y1, x2, y2);
 }
 
 int Edge::getNum()const

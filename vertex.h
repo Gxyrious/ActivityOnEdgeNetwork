@@ -5,17 +5,15 @@
 #include "vertex.h"
 
 
-class Vertex : public QPoint
+class Vertex : public QPointF
 {
 public:
     Vertex();
-    Vertex(QPoint point);
-    QPoint getPoint()const;
+    Vertex(QPointF point);
 
     int getNum()const;
     void setNum(int num);
 private:
-    //the count of Vertices
     int _num;
 };
 

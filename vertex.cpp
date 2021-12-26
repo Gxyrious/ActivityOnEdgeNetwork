@@ -2,20 +2,13 @@
 
 Vertex::Vertex()
 {
-    QPoint();
     _num = 0;
 }
 
-Vertex::Vertex(QPoint point)
+Vertex::Vertex(QPointF point)
 {
-    QPoint();
     setX(point.x());
     setY(point.y());
-}
-
-QPoint Vertex::getPoint()const
-{
-    return QPoint(x(),y());
 }
 
 int Vertex::getNum()const

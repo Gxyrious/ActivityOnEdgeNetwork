@@ -1,31 +1,31 @@
-#pragma once
+ï»¿#pragma once
 #include<iostream>
 
 using namespace std;
 
-//Á´±í½áµãÀà
+//é“¾è¡¨ç»“ç‚¹ç±»
 template<class T>
 class LinkNode {
 public:
-	LinkNode() :_data(T()), _next(NULL) {}//³õÊ¼»¯Îª¿Õ
-	T _data;//½áµãÊı¾İ
-	LinkNode<T>* _next;//ÏÂÒ»½áµã
+	LinkNode() :_data(T()), _next(NULL) {}//åˆå§‹åŒ–ä¸ºç©º
+	T _data;//ç»“ç‚¹æ•°æ®
+	LinkNode<T>* _next;//ä¸‹ä¸€ç»“ç‚¹
 };
 
-//Á´±íÀà
+//é“¾è¡¨ç±»
 template <class T>
 class LinkedList {
 public:
-	//¹¹Ôìº¯Êı
+	//æ„é€ å‡½æ•°
 	LinkedList() :_first(new LinkNode<T>), _length(0) {}
 
-	//Îö¹¹º¯Êı
+	//ææ„å‡½æ•°
 	~LinkedList() {
 		Erase();
 		delete _first;
 	}
 	
-	//Çå¿ÕÁ´±í£¬ÒÀ´ÎÉ¾³ı
+	//æ¸…ç©ºé“¾è¡¨ï¼Œä¾æ¬¡åˆ é™¤
 	void Erase() {
 		LinkNode<T>* cur;
 		while (_first->_next) {
@@ -36,17 +36,17 @@ public:
 		_length = 0;
 	}
 
-	//»ñÈ¡Á´±í³¤¶È
+	//è·å–é“¾è¡¨é•¿åº¦
 	int getLength()const {
 		return _length;
 	}
 
-	//»ñÈ¡¸½¼ÓÍ·½áµã
+	//è·å–é™„åŠ å¤´ç»“ç‚¹
 	LinkNode<T>* getHead() {
 		return _first;
 	}
 
-	//¶¨Î»µÚpos¸öÔªËØ
+	//å®šä½ç¬¬posä¸ªå…ƒç´ 
 	LinkNode<T>* Locate(int pos) {
 		if (pos < 0) {
 			return NULL;
@@ -58,40 +58,40 @@ public:
 		return cur;
 	}
 	
-	//ÔÚÁ´±íÄ©Î²Ìí¼Ó½áµã
+	//åœ¨é“¾è¡¨æœ«å°¾æ·»åŠ ç»“ç‚¹
 	bool PushBack(T& t) {
-		LinkNode<T>* cur = Locate(_length);//¶¨Î»Á´±íÄ©Î²½áµã
+		LinkNode<T>* cur = Locate(_length);//å®šä½é“¾è¡¨æœ«å°¾ç»“ç‚¹
 		if (!cur) {
 			return false;
 		}
-		LinkNode<T>* newNode = new LinkNode<T>;//´´½¨ÒªÌí¼ÓµÄ½áµã
+		LinkNode<T>* newNode = new LinkNode<T>;//åˆ›å»ºè¦æ·»åŠ çš„ç»“ç‚¹
 		if (!newNode) {
 			return false;
 		}
-		//Ìí¼Ó½áµãºËĞÄ´úÂë
+		//æ·»åŠ ç»“ç‚¹æ ¸å¿ƒä»£ç 
 		newNode->_data = t;
 		newNode->_next = cur->_next;
 		cur->_next = newNode;
-		//Ìí¼Ó½áµãºËĞÄ´úÂë
-		_length++;//¸üĞÂÁ´±í³¤¶È
+		//æ·»åŠ ç»“ç‚¹æ ¸å¿ƒä»£ç 
+		_length++;//æ›´æ–°é“¾è¡¨é•¿åº¦
 		return true;
 	}
 
-	//É¾³ı½áµã
+	//åˆ é™¤ç»“ç‚¹
 	bool Remove(int pos) {
-		LinkNode<T>* cur = Locate(pos - 1);//ÏÈ¶¨Î»ÒªÉ¾³ıµÄ½áµã
+		LinkNode<T>* cur = Locate(pos - 1);//å…ˆå®šä½è¦åˆ é™¤çš„ç»“ç‚¹
 		if (!cur || !(cur->_next)) {
 			return false;
 		}
-		//ºËĞÄÉ¾³ı´úÂë
+		//æ ¸å¿ƒåˆ é™¤ä»£ç 
 		LinkNode<T>* tar = cur->_next;
 		cur->_next = tar->_next;
 		delete tar;
-		//ºËĞÄÉ¾³ı´úÂë
-		_length--;//¸üĞÂÁ´±í³¤¶È
+		//æ ¸å¿ƒåˆ é™¤ä»£ç 
+		_length--;//æ›´æ–°é“¾è¡¨é•¿åº¦
 		return true;
 	}
 private:
-	LinkNode<T>* _first;//Á´±í¸½¼ÓÍ·½áµã
-	int _length;//Á´±í³¤¶È
+	LinkNode<T>* _first;//é“¾è¡¨é™„åŠ å¤´ç»“ç‚¹
+	int _length;//é“¾è¡¨é•¿åº¦
 };

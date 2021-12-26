@@ -1,4 +1,4 @@
-#ifndef GRAPH_HPP
+ï»¿#ifndef GRAPH_HPP
 #define GRAPH_HPP
 
 #include <iostream>
@@ -11,7 +11,7 @@ class MyEdge {
 public:
 	MyEdge() { _weight = 0; _nextEdge = 0; _secNode = 0, _tag = false; }
 	MyEdge(int num, T weight) :
-		_secNode(num), _weight(weight), _nextEdge(NULL),_tag(false) {}
+		_secNode(num), _weight(weight), _nextEdge(NULL), _tag(false) {}
 	bool _tag;
 	int _secNode;
 	T _weight;
@@ -22,7 +22,7 @@ template<class T, class E>
 class MyVertex {
 public:
 	MyVertex() { _data = 0; _firstEdge = NULL; _tag = false; Ve = -1; Vl = INT_MAX; }
-	MyVertex(E& data) :_data(data),Ve(-1),Vl(INT_MAX) { _data = 0; _firstEdge = NULL; }
+	MyVertex(E& data) :_data(data), Ve(-1), Vl(INT_MAX) { _data = 0; _firstEdge = NULL; }
 	bool _tag;
 	int Ve, Vl;
 	E _data;
@@ -33,16 +33,16 @@ public:
 template<class T, class E>
 class Graph {
 public:
-    LinkedList<int> startNode, endNode;
+	LinkedList<int> startNode, endNode;
 	int* TopoSort;
-	int getMaxVertices()const { return _maxVertices; }//»ñÈ¡½áµã×î´óÊı
-	int getNumVertices()const { return _numVertices; }//»ñÈ¡µ±Ç°½áµãÊı
-	int getNumEdges()const { return _numEdges; }//»ñÈ¡µ±Ç°±ßµÄÊıÄ¿
-	T getDefaultValueOfEdge()const { return _defaultValue_T; }//»ñÈ¡Ä¬ÈÏ±ßÈ¨Öµ
-	E getDefaultValueOfVertex()const { return _defaultValue_E; }//»ñÈ¡Ä¬ÈÏ½áµãÊı¾İ
+	int getMaxVertices()const { return _maxVertices; }//è·å–ç»“ç‚¹æœ€å¤§æ•°
+	int getNumVertices()const { return _numVertices; }//è·å–å½“å‰ç»“ç‚¹æ•°
+	int getNumEdges()const { return _numEdges; }//è·å–å½“å‰è¾¹çš„æ•°ç›®
+	T getDefaultValueOfEdge()const { return _defaultValue_T; }//è·å–é»˜è®¤è¾¹æƒå€¼
+	E getDefaultValueOfVertex()const { return _defaultValue_E; }//è·å–é»˜è®¤ç»“ç‚¹æ•°æ®
 	E getPosData(int i) const { return _NodeTable[i]._data; }
 	Graph(T dafaultValue_T = 0, E defaultValue_E = 0, int maxVertices = DefaultSize) {
-		//¹¹Ôìº¯Êı£¬ÒªÇóÊäÈëÁ½ÖÖÊı¾İÀàĞÍµÄÄ¬ÈÏÖµ
+		//æ„é€ å‡½æ•°ï¼Œè¦æ±‚è¾“å…¥ä¸¤ç§æ•°æ®ç±»å‹çš„é»˜è®¤å€¼
 		if (maxVertices <= 1) { maxVertices = DefaultSize; }
 		_defaultValue_T = dafaultValue_T;
 		_defaultValue_E = defaultValue_E;
@@ -53,7 +53,7 @@ public:
 		TopoSort = new int[_maxVertices];
 		for (int i = 0; i < _maxVertices; i++) {
 			_NodeTable[i]._firstEdge = NULL;
-			TopoSort[i] = NULL;
+			TopoSort[i] = -1;
 		}
 	}
 	void clear() {
@@ -67,7 +67,7 @@ public:
 		}
 		for (int i = 0; i < _maxVertices; i++) {
 			_NodeTable[i]._firstEdge = NULL;
-			TopoSort[i] = NULL;
+			TopoSort[i] = -1;
 		}
 		startNode.Erase();
 		endNode.Erase();
@@ -76,7 +76,7 @@ public:
 	}
 
 	~Graph() {
-		//Îö¹¹º¯Êı
+		//ææ„å‡½æ•°
 		for (int i = 0; i < _numVertices; i++) {
 			MyEdge<T>* p = _NodeTable[i]._firstEdge;
 			while (p != NULL) {
@@ -89,12 +89,12 @@ public:
 		delete[] TopoSort;
 	}
 	E getVertexValue(int i)const {
-		//»ñÈ¡Ä³¸ö½áµãµÄÖµ
+		//è·å–æŸä¸ªç»“ç‚¹çš„å€¼
 		if (i >= 0 && i < _numVertices) { return _NodeTable[i]._data; }
 		else { return _defaultValue_E; }
 	}
 	bool insertVertex(const E& vertex) {
-		//²åÈë½áµã£¬Êı¾İÎªvertex
+		//æ’å…¥ç»“ç‚¹ï¼Œæ•°æ®ä¸ºvertex
 		if (_numVertices == _maxVertices) { return false; }
 		for (int i = 0; i < _numVertices; i++) {
 			if (_NodeTable[i]._data == vertex) { return false; }
@@ -103,7 +103,7 @@ public:
 		return true;
 	}
 	T getEdgeWeight(int v1, int v2)const {
-		//»ñÈ¡Ä³Ìõ±ßµÄÈ¨Öµ
+		//è·å–æŸæ¡è¾¹çš„æƒå€¼
 		if (v1 != -1 && v2 != -1) {
 			MyEdge<T>* p = _NodeTable[v1]._firstEdge;
 			while (p != NULL && p->_secNode != v2) { p = p->_nextEdge; }
@@ -111,13 +111,13 @@ public:
 		}
 		return _defaultValue_T;
 	}
-	bool insertEdge(const E& n1,const E& n2, const T& weight) {
-		//ÔÚv1ºÍv2Ö®¼ä²åÈëÈ¨ÖµÎªweightµÄ±ß£¬Èô±ßÒÑ´æÔÚÔò·µ»Øfalse
+	bool insertEdge(const E& n1, const E& n2, const T& weight) {
+		//åœ¨v1å’Œv2ä¹‹é—´æ’å…¥æƒå€¼ä¸ºweightçš„è¾¹ï¼Œè‹¥è¾¹å·²å­˜åœ¨åˆ™è¿”å›false
 		int v1 = getVertexPos(n1), v2 = getVertexPos(n2);
 		if (v1 >= 0 && v1 < _numVertices && v2 >= 0 && v2 < _numVertices) {
-			MyEdge<T> * p = _NodeTable[v1]._firstEdge;
+			MyEdge<T>* p = _NodeTable[v1]._firstEdge;
 			while (p != NULL && p->_secNode != v2) { p = p->_nextEdge; }
-			if (p != NULL) { return false; }//´Ë±ß±¾¾Í´æÔÚ
+			if (p != NULL) { return false; }//æ­¤è¾¹æœ¬å°±å­˜åœ¨
 			p = new MyEdge<T>;
 			p->_secNode = v2;
 			p->_weight = weight;
@@ -129,14 +129,14 @@ public:
 		return false;
 	}
 	bool removeVertex(E& n) {
-		//É¾³ıÖµÎªnµÄ½áµã
+		//åˆ é™¤å€¼ä¸ºnçš„ç»“ç‚¹
 		int v = getVertexPos(n);
 		if (_numVertices == 1 || v < 0 || v >= _numVertices) { return false; }
 		MyEdge<T>* p, * s, * t;
 		int i, k;
 		while (_NodeTable[v]._firstEdge != NULL) {
 			p = _NodeTable[v]._firstEdge;
-			//É¾³ıËùÓĞÓëvÏàÁ¬µÄ¶¥µãÖ¸ÏòvµÄ±ß
+			//åˆ é™¤æ‰€æœ‰ä¸vç›¸è¿çš„é¡¶ç‚¹æŒ‡å‘vçš„è¾¹
 			k = p->_secNode;
 			s = _NodeTable[k]._firstEdge;
 			t = NULL;
@@ -168,7 +168,7 @@ public:
 		return true;
 	}
 	bool removeEdge(E& n1, E& n2) {
-		//É¾³ın1ºÍn2Ö®¼äµÄ±ß£¬Èô²»´æÔÚÕâÌõ±ßÔò·µ»Øfalse
+		//åˆ é™¤n1å’Œn2ä¹‹é—´çš„è¾¹ï¼Œè‹¥ä¸å­˜åœ¨è¿™æ¡è¾¹åˆ™è¿”å›false
 		int v1 = getVertexPos(n1), v2 = getVertexPos(n2);
 		if (v1 != -1 && v2 != -1) {
 			MyEdge<T>* p = _NodeTable[v1]._firstEdge, * q = NULL, * s = p;
@@ -208,10 +208,10 @@ public:
 		return -1;
 	}
 	bool TopologicalSort() {
-		//Èô´æÔÚÍØÆËÅÅĞò£¬Ôò·µ»Øtrue£¬²¢ÔÚTopoSort[]ÖĞ¼ÇÂ¼¶ÔÓ¦µÄË³Ğò
-		//Èô²»´æÔÚÍØÆËÅÅĞò£¬Ôò·µ»Øfalse
-		int i, j, w, v, counter = 0;
-		int top = -1;//Ö¸ÏòTopoSort×îºóÔªËØ
+		//è‹¥å­˜åœ¨æ‹“æ‰‘æ’åºï¼Œåˆ™è¿”å›trueï¼Œå¹¶åœ¨TopoSort[]ä¸­è®°å½•å¯¹åº”çš„é¡ºåº
+		//è‹¥ä¸å­˜åœ¨æ‹“æ‰‘æ’åºï¼Œåˆ™è¿”å›false
+		int i, w, v, counter = 0;
+		int top = -1;//æŒ‡å‘TopoSortæœ€åå…ƒç´ 
 		int n = getNumVertices();
 		int* count = new int[n];
 		bool* ifConnected = new bool[n];
@@ -219,7 +219,7 @@ public:
 			count[i] = 0;
 			ifConnected[i] = false;
 		}
-		/* ±éÀúËùÓĞ±ß£¬½«½ÚµãµÄÈë¶Á¼ÇÂ¼ÔÚcountÊı×éÖĞ */
+		/* éå†æ‰€æœ‰è¾¹ï¼Œå°†èŠ‚ç‚¹çš„å…¥è¯»è®°å½•åœ¨countæ•°ç»„ä¸­ */
 		for (int i = 0; i < n; i++) {
 			MyEdge<T>* p = _NodeTable[i]._firstEdge;
 			if (p != NULL) { ifConnected[i] = true; }
@@ -230,7 +230,7 @@ public:
 			}
 		}
 		for (int i = 0; i < n; i++) {
-			//Èç¹û´æÔÚÒ»¸öÃ»±»Á¬½ÓÉÏ£¬Ôò·µ»Øfalse
+			//å¦‚æœå­˜åœ¨ä¸€ä¸ªæ²¡è¢«è¿æ¥ä¸Šï¼Œåˆ™è¿”å›false
 			if (!ifConnected[i]) { return false; }
 		}
 
@@ -243,7 +243,7 @@ public:
 
 		for (int i = 0; i < n; i++) {
 			if (top == -1) {
-				cout << "ÍøÂçÖĞÓĞ»ØÂ·£¡" << endl;
+				//å­˜åœ¨å›è·¯
 				return false;
 			}
 			else {
@@ -261,6 +261,8 @@ public:
 				}
 			}
 		}
+		delete[] count;
+		delete[] ifConnected;
 		return true;
 	}
 	inline void VeWrite(int i, int ve) {
@@ -270,16 +272,16 @@ public:
 		_NodeTable[i].Vl = vl;
 	}
 private:
-	MyVertex<T, E>* _NodeTable;//¸÷±ßÁ´±íµÄÍ·½áµã
+	MyVertex<T, E>* _NodeTable;//å„è¾¹é“¾è¡¨çš„å¤´ç»“ç‚¹
 	T _defaultValue_T;
 	E _defaultValue_E;
 	int _maxVertices, _numEdges, _numVertices;
 	inline int getVertexPos(const E& data) {
-		//»ñÈ¡Êı¾İÎªvertexµÄ½áµãĞòºÅ
+		//è·å–æ•°æ®ä¸ºvertexçš„ç»“ç‚¹åºå·
 		for (int i = 0; i < _numVertices; i++) {
 			if (_NodeTable[i]._data == data) { return i; }
 		}
-		//Ä¿±ê½áµã²»´æÔÚ
+		//ç›®æ ‡ç»“ç‚¹ä¸å­˜åœ¨
 		return -1;
 	}
 };
@@ -288,56 +290,54 @@ template <class T, class E>
 void CriticalPath(Graph<T, E>* G) {
 	int i, j, k;
 	E Ae, Al, w;
-    int n = G->getNumVertices();
+	int n = G->getNumVertices();
 	E* Ve = new E[n], * Vl = new E[n];
 	for (i = 0; i < n; i++) {
-		//³õÊ¼»¯
+		//åˆå§‹åŒ–
 		Ve[i] = 0;
 		Vl[i] = INT_MAX;
 	}
 	for (i = 0; i < n; i++) {
-		//ÕıĞò±éÀúÇóVe
-                int curNode = G->TopoSort[i];
-                j = G->getFirstNeighbor(curNode);
+		//æ­£åºéå†æ±‚Ve
+		int curNode = G->TopoSort[i];
+		j = G->getFirstNeighbor(curNode);
 		while (j != -1) {
-                        w = G->getEdgeWeight(curNode, j);
+			w = G->getEdgeWeight(curNode, j);
 			if (Ve[curNode] + w > Ve[j]) {
 				Ve[j] = Ve[curNode] + w;
 			}
-                        j = G->getNextNeighbor(curNode, j);
+			j = G->getNextNeighbor(curNode, j);
 		}
 	}
 	Vl[n - 1] = Ve[n - 1];
 	for (j = n - 2; j >= 0; j--) {
-		//ÄæĞò±éÀúÇóVl
-                int curNode = G->TopoSort[j];
-                k = G->getFirstNeighbor(curNode);
+		//é€†åºéå†æ±‚Vl
+		int curNode = G->TopoSort[j];
+		k = G->getFirstNeighbor(curNode);
 		while (k != -1) {
-                        w = G->getEdgeWeight(curNode, k);
+			w = G->getEdgeWeight(curNode, k);
 			if (Vl[k] - w < Vl[curNode]) {
 				Vl[curNode] = Vl[k] - w;
 			}
-                        k = G->getNextNeighbor(curNode, k);
+			k = G->getNextNeighbor(curNode, k);
 		}
 	}
 	for (i = 0; i < n; i++) {
-                G->VeWrite(i, Ve[i]);
-                G->VlWrite(i, Vl[i]);
+		G->VeWrite(i, Ve[i]);
+		G->VlWrite(i, Vl[i]);
 	}
 	for (i = 0; i < n; i++) {
-		//ÅĞ¶ÏVe == Vl
-                int curNode = G->TopoSort[i];
-                j = G->getFirstNeighbor(curNode);
+		//åˆ¤æ–­Ve == Vl
+		int curNode = G->TopoSort[i];
+		j = G->getFirstNeighbor(curNode);
 		while (j != -1) {
 			Ae = Ve[curNode];
-                        Al = Vl[j] - G->getEdgeWeight(curNode, j);
+			Al = Vl[j] - G->getEdgeWeight(curNode, j);
 			if (Al == Ae) {
-                                G->startNode.PushBack(curNode);
-                                G->endNode.PushBack(j);
-                                cout << "<" << G->getVertexValue(curNode) << ","
-                                        << G->getVertexValue(j) << ">" << "ÊÇ¹Ø¼ü»î¶¯" << endl;
+				G->startNode.PushBack(curNode);
+				G->endNode.PushBack(j);
 			}
-                        j = G->getNextNeighbor(curNode, j);
+			j = G->getNextNeighbor(curNode, j);
 		}
 	}
 	delete[]Ve;
