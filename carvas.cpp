@@ -33,25 +33,29 @@ void Carvas::mouseReleaseEvent(QMouseEvent *event)
 void Carvas::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
+    painter.setRenderHints(QPainter::Antialiasing, true);
     int nodeRadius = 15;
     for(int iter = 0; iter < vecEdge.size(); iter++)
     {
         //绘制边
+        QPen pen;
+        pen.setWidth(3);
+        pen.setCapStyle(Qt::RoundCap);
         if(vecEdge[iter]->tag)
         {
             //若是关键路径，则用特殊笔绘制
-            painter.setPen(QPen(QColor(255,0,0),4));
-            painter.setFont(QFont("黑体", 15));
+            pen.setColor(Qt::red);
         }
         else
         {
             //非关键路径，用普通笔绘制
-            painter.setPen(QPen(QColor(0,0,0),4));
-            painter.setFont(QFont("黑体", 15));
+            pen.setColor(Qt::black);
         }
-        /////////////////////////////////////////////////////////////////////////
+        painter.setPen(pen);
+        painter.setFont(QFont("黑体", 15));
+
         //绘制路径和箭头
-        double arrowSize = 20;
+        double arrowSize = 15;
         //起始点和终止点
         QPointF sPoint = vecEdge[iter]->p1(), ePoint = vecEdge[iter]->p2();
 
@@ -65,41 +69,20 @@ void Carvas::paintEvent(QPaintEvent *event)
         //实际要画的线
         QLineF line(QPointF(sPoint.x() + dx * nodeRadius, sPoint.y() + dy * nodeRadius),
                     QPointF(ePoint.x() - dx * nodeRadius, ePoint.y() - dy * nodeRadius));
+        //角度
+        double angle = atan2(line.dy(), line.dx());
 
-        //利用线性代数旋转向量
-        //        double angle = M_PI / 3;
-        //        QPointF t1 = QPointF(-dx * cos(angle) + dy * sin(angle), -dx * sin(angle) + dy * cos(angle)),
-        //                t2 = QPointF(-dx * cos(-angle) + dy * sin(-angle), -dx * sin(-angle) + dy * cos(-angle));
-        //        QPointF arrow1 = QPointF(line.p2().x() + arrowSize * t1.x(), line.p2().y() + arrowSize * t1.y()),
-        //                arrow2 = QPointF(line.p2().x() + arrowSize * t2.x(), line.p2().y() + arrowSize * t2.y());
-        //        painter.drawLine(line);
-        //        painter.drawLine(line.p2(), arrow1);
-        //        painter.drawLine(line.p2(), arrow2);
-        /////////////////////////////////////////////////////////////////////////
-        //        QLineF line(QPointF(sPoint.x() + dx * nodeRadius, sPoint.y() + dy * nodeRadius),
-        //                    QPointF(ePoint.x() - dx * nodeRadius, ePoint.y() - dy * nodeRadius));
-        double angle = abs(atan2(line.dy(), line.dx()));
-        std::cout<<angle<<"\n";
-        //        qreal arrowSize = 10;//箭头长度
-        QPointF arrowP1 = line.p2() - QPointF(cos(angle + M_PI / 6)*arrowSize, 0),
-                arrowP2 = line.p2() - QPointF(cos(angle - M_PI / 6)*arrowSize, 0);
-        if (sPoint.y() > ePoint.y()) {
-            arrowP1 +=  QPointF(0, sin(angle + M_PI / 6)*arrowSize);
-            arrowP2 +=  QPointF(0, sin(angle - M_PI / 6)*arrowSize);
-        }
-        else {
-            arrowP1 -=   QPointF(0, sin(angle+ M_PI / 6)*arrowSize);
-            arrowP2 -=   QPointF(0, sin(angle - M_PI / 6)*arrowSize);
-        }
-        //        QPointF arrowP1 = line.p2() - QPointF(sin(angle + M_PI / 3) * arrowSize,
-        //                                              cos(angle + M_PI / 3) * arrowSize);
-        //        QPointF arrowP2 = line.p2() - QPointF(sin(angle + 2 / 3 * M_PI) * arrowSize,
-        //                                              cos(angle + 2 / 3 * M_PI) * arrowSize);
+        QPointF arrowP1 = line.p2() - QPointF(cos(angle + M_PI / 9) * arrowSize,
+                                              sin(angle + M_PI / 9) * arrowSize),
+                arrowP2 = line.p2() - QPointF(cos(angle - M_PI / 9) * arrowSize,
+                                              sin(angle - M_PI / 9) * arrowSize);
+
         QPolygonF arrowHead;
         arrowHead << line.p2() << arrowP2 << arrowP1;
-        painter.drawLine(line);
         painter.drawLine(line.p2(), arrowP1);
         painter.drawLine(line.p2(), arrowP2);
+        pen.setWidth(2);
+        painter.drawLine(line);
 
         //绘制路径权值
         QPointF location = QPointF((vecEdge[iter]->p1() + vecEdge[iter]->p2()) / 2);

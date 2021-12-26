@@ -31,7 +31,8 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event);
     void paintEvent(QPaintEvent *event);
 private:
-    //当前结点和边的总数，与vecVertex.size()和vecEdge.size()保持一致
+    //当前结点和边的总数，
+    //与vecVertex.size()和vecEdge.size()保持一致
     int numVertex, numEdge;
     Graph<int, int>* graph;
 
