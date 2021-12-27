@@ -28,13 +28,13 @@ SOURCES += \
         widget.cpp \
     vertex.cpp \
     edge.cpp \
-    carvas.cpp
+    canvas.cpp
 
 HEADERS += \
         widget.h \
     vertex.h \
     edge.h \
-    carvas.h
+    canvas.h
 
 INCLUDEPATH += \
         LinkedList.hpp \

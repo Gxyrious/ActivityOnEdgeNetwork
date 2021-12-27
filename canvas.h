@@ -12,12 +12,12 @@
 #include "edge.h"
 
 
-class Carvas : public QWidget
+class Canvas : public QWidget
 {
     Q_OBJECT
 public:
-    explicit Carvas(QWidget *parent = 0);
-    ~Carvas();
+    explicit Canvas(QWidget *parent = 0);
+    ~Canvas();
 
     int getNumVertex()const;
     int getNumEdge()const;

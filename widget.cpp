@@ -9,7 +9,7 @@ Widget::Widget(QWidget* parent) :
     this->setFixedSize(1000, 600);
 
     //carvas继承QWidget的类
-    carvas = new Carvas(this);
+    carvas = new Canvas(this);
 
     //输入框
     QGroupBox* inputGroup = new QGroupBox(tr("Input"));
@@ -111,7 +111,7 @@ Widget::Widget(QWidget* parent) :
     this->setLayout(layout);
 //! [7] 设置总体布局
 
-    //! [8] 设置信号和槽 signal and slot
+//! [8] 设置信号和槽 signal and slot
     connect(edgeSubmitButton, SIGNAL(clicked(bool)), this, SLOT(submitEdge()));
     connect(edgeRemoveButton, SIGNAL(clicked(bool)), this, SLOT(removeEdge()));
     connect(aoeGenerateButton, SIGNAL(clicked(bool)), carvas, SLOT(generateCriticalEdge()));

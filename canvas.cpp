@@ -1,10 +1,10 @@
 #include <QMessageBox>
 #include <QDebug>
 
-#include "carvas.h"
+#include "canvas.h"
 #include "LinkedList.hpp"
 
-Carvas::Carvas(QWidget *parent) :
+Canvas::Canvas(QWidget *parent) :
     QWidget(parent)
 {
     //构造函数
@@ -14,7 +14,7 @@ Carvas::Carvas(QWidget *parent) :
 }
 
 /*鼠标释放事件*/
-void Carvas::mouseReleaseEvent(QMouseEvent *event)
+void Canvas::mouseReleaseEvent(QMouseEvent *event)
 {
     //将原来的边全部置为黑色
     for(int iter = 0; iter <vecEdge.size(); iter++)
@@ -30,7 +30,7 @@ void Carvas::mouseReleaseEvent(QMouseEvent *event)
 }
 
 /*绘图事件*/
-void Carvas::paintEvent(QPaintEvent *event)
+void Canvas::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing, true);
@@ -128,7 +128,7 @@ void Carvas::paintEvent(QPaintEvent *event)
 }
 
 /*析构函数*/
-Carvas::~Carvas()
+Canvas::~Canvas()
 {
     delete graph;
     for(int iter = 0; iter < vecEdge.size(); iter++)
@@ -143,7 +143,7 @@ Carvas::~Carvas()
 }
 
 /*添加边*/
-bool Carvas::addEdge(int n1,int n2,int weight)
+bool Canvas::addEdge(int n1,int n2,int weight)
 {
     //在序号为n1和n2的结点之间连接一条边，若结点不存在则返回false
     if(!graph->insertEdge(n1, n2, weight))
@@ -169,7 +169,7 @@ bool Carvas::addEdge(int n1,int n2,int weight)
 }
 
 /*删除边*/
-bool Carvas::removeEdge(int n1,int n2)
+bool Canvas::removeEdge(int n1,int n2)
 {
     //删除n1与n2之间的边，若边不存在，则返回false
     if(!graph->removeEdge(n1, n2))
@@ -198,19 +198,19 @@ bool Carvas::removeEdge(int n1,int n2)
 }
 
 /*获取结点数*/
-int Carvas::getNumVertex() const
+int Canvas::getNumVertex() const
 {
     return numVertex;
 }
 
 /*获取边数*/
-int Carvas::getNumEdge() const
+int Canvas::getNumEdge() const
 {
     return numEdge;
 }
 
 /*生成关键路径*/
-void Carvas::generateCriticalEdge()
+void Canvas::generateCriticalEdge()
 {
     for(int iter = 0; iter < vecEdge.size(); iter++)
     {
@@ -256,7 +256,7 @@ void Carvas::generateCriticalEdge()
 }
 
 /*清空图*/
-void Carvas::clearGraph()
+void Canvas::clearGraph()
 {
     //先删地图
     graph->clear();

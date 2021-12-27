@@ -12,7 +12,7 @@
 #include <QPushButton>
 #include <QDebug>
 
-#include "carvas.h"
+#include "canvas.h"
 #include "Graph.hpp"
 
 namespace Ui {
@@ -26,7 +26,7 @@ class Widget : public QWidget
 public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
-    Carvas *carvas;
+    Canvas *carvas;
 
 public slots:
     void submitEdge();
